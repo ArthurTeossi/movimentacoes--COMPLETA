@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova movimentação | CredMais</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+
+    <header class="cabecalho">
+        <a href="{{ url_for('inicio') }}" class="marca">
+            <img
+                src="{{ url_for('static', filename='Uploads/logo.png') }}"
+                alt="Logo CredMais"
+                class="logo-imagem"
+            >
+        </a>
+
+        <nav class="menu">
+            <a href="{{ url_for('inicio') }}">Dashboard</a>
+            <a href="{{ url_for('inicio') }}">Perfil</a>
+            <a href="{{ url_for('inicio') }}">Simulação</a>
+            <a href="{{ url_for('inicio') }}">Empréstimos</a>
+            <a href="{{ url_for('inicio') }}" class="ativo">Movimentações</a>
+        </nav>
+    </header>
+    <main class="pagina-movimentacao">
+        <section class="titulo-pagina">
+            <div class="icone-calculadora">
+                <img
+                    src="{{ url_for('static', filename='Uploads/icone-calculadora.png') }}"
+                    alt="Calculadora"
+                >
+            </div>
+            <div>
+                <h1>Nova movimentação</h1>
+                <p>Informe os dados e adicione uma nova despesa ou receita.</p>
+            </div>
+        </section>
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% if mensagens %}
+                {% for categoria_msg, mensagem in mensagens %}
+                    <div class="mensagem {{ categoria_msg }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <section class="formulario-card">
+            <form action="{{ url_for('nova_movimentacao') }}" method="POST">
+                <div class="campo">
+                    <label for="valor">Valor da Movimentação</label>
+                    <input
+                        type="number"
+                        id="valor"
+                        name="valor"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="R$ 0,00"
+                        required
+                    >
+                </div>
+                <div class="campo">
+                    <label for="tipo">Tipo de Movimentação</label>
+                    <input
+                        type="text"
+                        id="tipo"
+                        name="tipo"
+                        placeholder="Ex.: Pagamento, empréstimo..."
+                        maxlength="100"
+                        required
+                    >
+                </div>
+                <fieldset class="campo-categoria">
+                    <legend>Categoria</legend>
+                    <div class="opcoes-categoria">
+                        <label class="opcao">
+                            <span class="icone-categoria receita-icone">
+                                <img
+                                    src="{{ url_for('static', filename='Uploads/icone-receita-positiva.png') }}"
+                                    alt="Ícone de receita"
+                                >
+                            </span>
+                            <span class="texto-opcao">Receita</span>
+                            <input
+                                type="radio"
+                                name="categoria"
+                                value="Receita"
+                                required
+                            >
+                            <span class="radio-personalizado"></span>
+                        </label>
+                        <label class="opcao">
+                            <span class="icone-categoria despesa-icone">
+                                <img
+                                    src="{{ url_for('static', filename='Uploads/ícone-despesas.png') }}"
+                                    alt="Ícone de despesa"
+                                >
+                            </span>
+                            <span class="texto-opcao">Despesa</span>
+                            <input
+                                type="radio"
+                                name="categoria"
+                                value="Despesa"
+                                required
+                            >
+                            <span class="radio-personalizado"></span>
+                        </label>
+                    </div>
+                </fieldset>
+                <div class="campo">
+                    <label for="classificacao">Classificação</label>
+                    <select id="classificacao" name="classificacao" onchange="mostrarMeses()"> <!-- select: lista de opcoes. onchange chama a funcao quando troca -->
+                        <option value="2">Variável</option> <!-- option: cada opcao da lista -->
+                        <option value="1">Fixa</option>
+                    </select>
+                </div>
+                <div class="campo" id="campo-meses" style="display: none;">
+                    <label for="meses">Durante quantos meses?</label>
+                    <input type="number" id="meses" name="meses" min="1" max="120" value="1">
+                </div>
+                <div class="botoes-formulario">
+                    <button type="submit" class="botao-registrar">
+                        Registrar
+                    </button>
+                    <a href="{{ url_for('inicio') }}" class="botao-cancelar">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </section>
+    </main>
+    <!-- script: mostra o campo de meses so quando for fixa -->
+    <script>
+    function mostrarMeses() {
+        var classificacao = document.getElementById("classificacao").value;
+        if (classificacao == "1") {
+            document.getElementById("campo-meses").style.display = "flex";
+        } else {
+            document.getElementById("campo-meses").style.display = "none";
+        }
+    }
+    </script>
+</body>
+</html>

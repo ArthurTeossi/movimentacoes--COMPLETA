@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimentação registrada | CredMais</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+
+    <header class="cabecalho">
+        <a href="{{ url_for('inicio') }}" class="marca">
+            <img
+                src="{{ url_for('static', filename='Uploads/logo.png') }}"
+                alt="Logo CredMais"
+                class="logo-imagem"
+            >
+        </a>
+
+        <nav class="menu">
+            <a href="{{ url_for('inicio') }}">Dashboard</a>
+            <a href="{{ url_for('inicio') }}">Perfil</a>
+            <a href="{{ url_for('inicio') }}">Simulação</a>
+            <a href="{{ url_for('inicio') }}">Empréstimos</a>
+            <a href="{{ url_for('inicio') }}" class="ativo">Movimentações</a>
+        </nav>
+    </header>
+
+    <main class="pagina-sucesso">
+        <section class="card-sucesso">
+            <img
+                src="{{ url_for('static', filename='Uploads/icone-correto-movimentacao.png') }}"
+                alt="Movimentação registrada"
+                class="icone-sucesso"
+            >
+
+            <h1>Movimentação realizada com sucesso!</h1>
+            <p class="subtitulo-sucesso">
+                Sua movimentação foi registrada e alterada no seu perfil financeiro.
+            </p>
+
+            <div class="resumo-sucesso {{ dados.classe }}">
+                <div>
+                    <div class="resumo-rotulo">Valor da alteração</div>
+                    <div class="resumo-valor-sucesso">R$ {{ dados.valor_texto }}</div>
+                </div>
+
+                <div class="resumo-info">
+                    <div>Categoria: {{ dados.categoria }}</div>
+                    <div>Descrição: {{ dados.descricao }}</div>
+                </div>
+            </div>
+
+            <hr class="divisor-sucesso">
+
+            <a href="{{ url_for('inicio') }}" class="botao-voltar">Voltar para o Início</a>
+        </section>
+    </main>
+
+</body>
+</html>
